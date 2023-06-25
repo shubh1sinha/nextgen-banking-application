@@ -3,15 +3,13 @@ package com.model.user;
 
 import java.math.BigInteger;
 
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.model.account.Account;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -25,8 +23,7 @@ public class User {
 	
 	@Id
 	@Column(name = "USERID")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int userId;
+	private String userId;
 
 	@Column(name = "FIRSTNAME")
 	private String firstName;
@@ -43,15 +40,35 @@ public class User {
 	@Column(name = "PHONENO")
 	private BigInteger phoneNo;
 	
+	@Column(name="emailId")
+	private String emailId;
+	
+	@Value("false")
 	@Column(name="KYC")
-	private boolean isKycDone;
+	private String isKycDone;
+	
+	@Value("false")
+	@Column(name="UPI")
+	private String isupiOpted;
+	
+	@Value("false")
+	@Column(name="DEMAT")
+	private String isdematOpted;
+	
+	@Value("false")
+	@Column(name="SALARIED")
+	private String isSalariedAccount;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sweep_id", referencedColumnName = "sweepId")
+	protected SweepRequested sweepReq;
 
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "addressId")
 	private Address address;
 
 	@OneToOne(mappedBy = "user")
-	Account account;
+	private Account account;
 
 	
 
