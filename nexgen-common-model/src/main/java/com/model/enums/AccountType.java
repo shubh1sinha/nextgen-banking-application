@@ -1,4 +1,4 @@
-package com.model.account;
+package com.model.enums;
 
 import java.util.Arrays;
 

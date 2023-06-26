@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.model.enums.AccountType;
-import com.model.user.SweepRequested;
-import com.model.user.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,11 +20,11 @@ import lombok.ToString;
 @ToString
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Account {
+public abstract class SubAccounts {
 
 	@Id
-	@Column(name = "ACCOUNT_NO")
-	protected long accountNo;
+	@Column(name = "SUB_ACCOUNT_NO")
+	protected long subAccountNo;
 
 	@Column(name = "BALANCE")
 	protected BigDecimal balance;
@@ -34,20 +32,16 @@ public abstract class Account {
 	@Column(name = "OPENING_DATE")
 	protected LocalDateTime openingDate;
 
-	@Column(name = "ACCOUNT_TYPE")
-	protected AccountType accountType;
+	@Column(name = "SUB_ACCOUNT_TYPE")
+	protected AccountType subAccountType;
 	
-	@OneToOne(mappedBy = "account")
-	protected Cards cards;
-	
-	@OneToOne(mappedBy = "account")
-	protected SubAccounts subAccountS;
-
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id", referencedColumnName = "userId")
-	protected User user;
+	@JoinColumn(name = "account_no", referencedColumnName = "accountNo")
+	protected Account acoount;
 	
-	public abstract BigDecimal getInrestRate(SweepRequested sweepReq);
+	public abstract String generateSubAccountNo(long subAccountNo);
+	
+	public abstract String generateMaturityDate(AccountType subAccountType);
 
 }
